@@ -3,7 +3,6 @@
     <string name="view_animals">View animals</string>
     <string name="add_animal">Add animal</string>
     <string name="animals_title">Animals</string>
-    <string name="back_to_main_menu">Back to main menu</string>
     <string name="add_animal_title">Add animal</string>
     <string name="edit_animal_title">Edit animal</string>
     <string name="animal_name">Animal name</string>
@@ -12,7 +11,6 @@
     <string name="lifespan">Lifespan</string>
     <string name="preferred_diet">Preferred diet</string>
     <string name="animal_image">Animal image</string>
-    <string name="no_image">No image</string>
     <string name="choose_image">Choose image</string>
     <string name="clear_image">Clear image</string>
     <string name="save">Save</string>
@@ -25,4 +23,19 @@
     <string name="animal_added">Animal added</string>
     <string name="animal_updated">Animal updated</string>
     <string name="animal_update_failed">Animal could not be updated</string>
+    <string name="search_hint">Search animals by name, type or description</string>
+    <string name="no_animals_found">No animals match your search.</string>
+    <string name="filter_all_types">All types</string>
+    <string name="filter_any_lifespan">Any lifespan</string>
+    <string name="filter_short_lifespan">Short (under 5 yrs)</string>
+    <string name="filter_medium_lifespan">Medium (5-15 yrs)</string>
+    <string name="filter_long_lifespan">Long (over 15 yrs)</string>
+    <string name="filter_all_diets">All diets</string>
+    <string name="navigate_up">Navigate up</string>
+    <string name="discard_changes_title">Discard changes?</string>
+    <string name="discard_changes_message">You have unsaved changes. Leave without saving?</string>
+    <string name="discard">Discard</string>
+    <string name="keep_editing">Keep editing</string>
+    <string name="animal_deleted">%1$s deleted</string>
+    <string name="undo">Undo</string>
 </resources>

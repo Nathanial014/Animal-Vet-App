@@ -13,7 +13,8 @@
         android:theme="@style/Theme.AnimalsVetApp">
         <activity
             android:name=".AnimalEditActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".AnimalListActivity" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -27,6 +28,7 @@
         <activity
             android:name=".AnimalListActivity"
             android:exported="false"
+            android:parentActivityName=".MainActivity"
             android:windowSoftInputMode="adjustResize" />
     </application>
 
