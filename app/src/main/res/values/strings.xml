@@ -25,4 +25,12 @@
     <string name="animal_added">Animal added</string>
     <string name="animal_updated">Animal updated</string>
     <string name="animal_update_failed">Animal could not be updated</string>
+    <string name="search_hint">Search animals by name, type or description</string>
+    <string name="no_animals_found">No animals match your search.</string>
+    <string name="filter_all_types">All types</string>
+    <string name="filter_any_lifespan">Any lifespan</string>
+    <string name="filter_short_lifespan">Short (under 5 yrs)</string>
+    <string name="filter_medium_lifespan">Medium (5-15 yrs)</string>
+    <string name="filter_long_lifespan">Long (over 15 yrs)</string>
+    <string name="filter_all_diets">All diets</string>
 </resources>
