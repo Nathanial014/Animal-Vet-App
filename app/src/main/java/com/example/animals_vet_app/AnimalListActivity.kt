@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.snackbar.Snackbar
 
 class AnimalListActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
@@ -151,9 +152,17 @@ class AnimalListActivity : AppCompatActivity() {
     }
 
     private fun deleteAnimal(animal: Animal) {
+        val index = AppData.animals.indexOf(animal.id)
         if (AppData.animals.delete(animal.id)) {
             refreshFilterOptions()
             applyFilters()
+            Snackbar.make(recyclerView, getString(R.string.animal_deleted, animal.name), Snackbar.LENGTH_LONG)
+                .setAction(R.string.undo) {
+                    AppData.animals.restore(animal, index)
+                    refreshFilterOptions()
+                    applyFilters()
+                }
+                .show()
         }
     }
 }

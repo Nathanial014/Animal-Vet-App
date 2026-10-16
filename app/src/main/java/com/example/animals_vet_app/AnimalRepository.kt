@@ -37,6 +37,12 @@ class AnimalRepository {
         }
     }
 
+    fun indexOf(id: Long): Int = animals.indexOfFirst { it.id == id }
+
+    fun restore(animal: Animal, index: Int) {
+        animals.add(index.coerceIn(0, animals.size), animal)
+    }
+
     fun findOne(id: Long): Animal? {
         return animals.find { p -> p.id == id }
     }

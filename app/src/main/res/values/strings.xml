@@ -38,4 +38,6 @@
     <string name="discard_changes_message">You have unsaved changes. Leave without saving?</string>
     <string name="discard">Discard</string>
     <string name="keep_editing">Keep editing</string>
+    <string name="animal_deleted">%1$s deleted</string>
+    <string name="undo">Undo</string>
 </resources>
