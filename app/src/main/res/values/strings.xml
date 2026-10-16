@@ -3,7 +3,6 @@
     <string name="view_animals">View animals</string>
     <string name="add_animal">Add animal</string>
     <string name="animals_title">Animals</string>
-    <string name="back_to_main_menu">Back to main menu</string>
     <string name="add_animal_title">Add animal</string>
     <string name="edit_animal_title">Edit animal</string>
     <string name="animal_name">Animal name</string>
@@ -12,7 +11,6 @@
     <string name="lifespan">Lifespan</string>
     <string name="preferred_diet">Preferred diet</string>
     <string name="animal_image">Animal image</string>
-    <string name="no_image">No image</string>
     <string name="choose_image">Choose image</string>
     <string name="clear_image">Clear image</string>
     <string name="save">Save</string>
