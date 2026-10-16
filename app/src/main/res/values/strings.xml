@@ -33,4 +33,9 @@
     <string name="filter_medium_lifespan">Medium (5-15 yrs)</string>
     <string name="filter_long_lifespan">Long (over 15 yrs)</string>
     <string name="filter_all_diets">All diets</string>
+    <string name="navigate_up">Navigate up</string>
+    <string name="discard_changes_title">Discard changes?</string>
+    <string name="discard_changes_message">You have unsaved changes. Leave without saving?</string>
+    <string name="discard">Discard</string>
+    <string name="keep_editing">Keep editing</string>
 </resources>

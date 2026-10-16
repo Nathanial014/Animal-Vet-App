@@ -1,9 +1,24 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:navigationContentDescription="@string/navigate_up"
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        app:title="@string/add_animal_title" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,16 +26,6 @@
         android:orientation="vertical"
         android:paddingHorizontal="24dp"
         android:paddingVertical="16dp">
-
-        <TextView
-            style="@style/Widget.App.Title"
-            android:id="@+id/formTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="@string/add_animal_title"
-            android:textSize="28sp"
-            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/nameInput"
@@ -86,7 +91,8 @@
             android:text="@string/cancel" />
 
     </LinearLayout>
-</ScrollView>
+    </ScrollView>
+</LinearLayout>
 
 
 

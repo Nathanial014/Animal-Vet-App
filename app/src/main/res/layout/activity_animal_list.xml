@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingHorizontal="16dp">
 
-    <TextView
-        android:id="@+id/animalsTitle"
-        style="@style/Widget.App.Title"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingVertical="16dp"
-        android:text="@string/animals_title"
-        android:textSize="28sp" />
+        android:layout_height="?attr/actionBarSize"
+        app:navigationContentDescription="@string/navigate_up"
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        app:title="@string/animals_title" />
 
     <EditText
         android:id="@+id/searchInput"
@@ -63,13 +63,5 @@
         android:layout_weight="1"
         android:clipToPadding="false"
         android:paddingBottom="8dp" />
-
-    <Button
-        android:id="@+id/returnButton"
-        style="@style/Widget.Material3.Button.TonalButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="8dp"
-        android:text="@string/back_to_main_menu" />
 
 </LinearLayout>

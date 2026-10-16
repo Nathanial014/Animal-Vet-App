@@ -1,4 +1,4 @@
-﻿package com.example.animals_vet_app
+package com.example.animals_vet_app
 
 import android.content.Context
 import android.content.Intent
@@ -15,7 +15,9 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.appbar.MaterialToolbar
 
 class AnimalEditActivity : AppCompatActivity() {
     private lateinit var nameInput: EditText
@@ -25,7 +27,8 @@ class AnimalEditActivity : AppCompatActivity() {
     private lateinit var typeImagePreview: ImageView
     private var selectedImage = ""
     private lateinit var typeInput: Spinner
-    private lateinit var formTitle: TextView
+    private lateinit var toolbar: MaterialToolbar
+    private var initialState = ""
 
     private var editingId: Long? = null
 
@@ -43,16 +46,25 @@ class AnimalEditActivity : AppCompatActivity() {
         findViewById<View>(R.id.root).applySystemBarsPadding()
         bindViews()
         findViewById<Button>(R.id.saveButton).setOnClickListener { saveAnimal() }
-        findViewById<Button>(R.id.cancelButton).setOnClickListener { finish() }
-        formTitle.setText(
+        findViewById<Button>(R.id.cancelButton).setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
+        toolbar.setNavigationOnClickListener { onBackPressedDispatcher.onBackPressed() }
+        toolbar.setTitle(
             if (editingId == null) R.string.add_animal_title else R.string.edit_animal_title
         )
         editingId?.let(::loadExistingAnimal)
+        initialState = formState()
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (formState() == initialState) finish() else confirmDiscard()
+            }
+        })
         setSelectedImage(savedInstanceState?.getString(STATE_IMAGE) ?: selectedImage)
     }
 
     private fun bindViews() {
-        formTitle = findViewById(R.id.formTitle)
+        toolbar = findViewById(R.id.toolbar)
         nameInput = findViewById(R.id.nameInput)
         typeInput = findViewById(R.id.typeInput)
         descriptionInput = findViewById(R.id.descriptionInput)
@@ -67,6 +79,24 @@ class AnimalEditActivity : AppCompatActivity() {
             android.R.layout.simple_spinner_item,
             ANIMAL_TYPES
         ).also { it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item) }
+    }
+
+    private fun formState() = listOf(
+        nameInput.text.toString().trim(),
+        typeInput.selectedItemPosition.toString(),
+        descriptionInput.text.toString().trim(),
+        lifespanInput.text.toString().trim(),
+        dietPreferredInput.text.toString().trim(),
+        selectedImage
+    ).joinToString("\u0000")
+
+    private fun confirmDiscard() {
+        AlertDialog.Builder(this)
+            .setTitle(R.string.discard_changes_title)
+            .setMessage(R.string.discard_changes_message)
+            .setPositiveButton(R.string.discard) { _, _ -> finish() }
+            .setNegativeButton(R.string.keep_editing, null)
+            .show()
     }
 
     private fun showImagePicker() {

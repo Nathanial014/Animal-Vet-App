@@ -1,4 +1,4 @@
-﻿package com.example.animals_vet_app
+package com.example.animals_vet_app
 
 import android.os.Bundle
 import android.text.Editable
@@ -6,12 +6,12 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.appbar.MaterialToolbar
 
 class AnimalListActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
@@ -73,8 +73,8 @@ class AnimalListActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) = applyFilters()
         })
 
-        findViewById<Button>(R.id.returnButton).setOnClickListener {
-            finish()
+        findViewById<MaterialToolbar>(R.id.toolbar).setNavigationOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
         }
     }
 
