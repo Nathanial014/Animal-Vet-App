@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="brand_primary">#81C784</color>
+    <color name="brand_on_primary">#0B2A0E</color>
+    <color name="brand_secondary">#4DB6AC</color>
+    <color name="app_background">#121A13</color>
+    <color name="card_background">#1E2A1F</color>
+    <color name="text_primary">#E6F0E6</color>
+    <color name="text_secondary">#A9BCAA</color>
+    <color name="delete_red">#E57373</color>
+</resources>

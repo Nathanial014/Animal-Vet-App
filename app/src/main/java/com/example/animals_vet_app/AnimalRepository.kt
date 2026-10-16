@@ -2,7 +2,7 @@ package com.example.animals_vet_app
 
 import java.util.concurrent.atomic.AtomicLong
 
-class Animals {
+class AnimalRepository {
     private val animals = ArrayList<Animal>()
     private val lastId = AtomicLong(0L)
 
