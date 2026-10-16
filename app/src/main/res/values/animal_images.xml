@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Images offered in the "Animal image" dropdown.
+    To add one: copy the image into res/drawable (lowercase, no spaces, e.g. lion.png)
+    and add its file name without the extension below.
+-->
+<resources>
+    <string-array name="animal_image_names">
+        <item>ic_animal_placeholder</item>
+        <item>cat</item>
+        <item>greathammerheadshark</item>
+        <item>russellterrierdog</item>
+        <item>tiger</item>
+        <item>neiltheseal</item>
+        <item>panther</item>
+        <item>wolf</item>
+    </string-array>
+</resources>
