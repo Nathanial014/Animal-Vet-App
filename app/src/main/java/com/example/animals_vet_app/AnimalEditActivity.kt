@@ -4,19 +4,19 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.BaseAdapter
 import android.widget.Button
 import android.widget.EditText
-import android.widget.GridView
 import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.Toast
+import android.text.InputType
 import androidx.appcompat.app.AlertDialog
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.appbar.MaterialToolbar
+import android.net.Uri
+
 
 class AnimalEditActivity : AppCompatActivity() {
     private lateinit var nameInput: EditText
@@ -25,6 +25,7 @@ class AnimalEditActivity : AppCompatActivity() {
     private lateinit var dietPreferredInput: EditText
     private lateinit var typeImagePreview: ImageView
     private var selectedImage = ""
+    private var fallbackImageName = ""
     private lateinit var typeInput: Spinner
     private lateinit var toolbar: MaterialToolbar
     private var initialState = ""
@@ -44,6 +45,11 @@ class AnimalEditActivity : AppCompatActivity() {
         setContentView(R.layout.activity_add_edit)
         findViewById<View>(R.id.root).applySystemBarsPadding()
         bindViews()
+
+        findViewById<Button>(R.id.chooseImageButton).setOnClickListener {
+            showImageUrlDialog()
+        }
+
         findViewById<Button>(R.id.saveButton).setOnClickListener { saveAnimal() }
         findViewById<Button>(R.id.cancelButton).setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
@@ -53,13 +59,16 @@ class AnimalEditActivity : AppCompatActivity() {
             if (editingId == null) R.string.add_animal_title else R.string.edit_animal_title
         )
         editingId?.let(::loadExistingAnimal)
+        savedInstanceState?.getString(STATE_IMAGE)?.let { imageUri ->
+            selectedImage = imageUri
+            showSelectedImage()
+        }
         initialState = formState()
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (formState() == initialState) finish() else confirmDiscard()
             }
         })
-        setSelectedImage(savedInstanceState?.getString(STATE_IMAGE) ?: selectedImage)
     }
 
     private fun bindViews() {
@@ -70,8 +79,6 @@ class AnimalEditActivity : AppCompatActivity() {
         lifespanInput = findViewById(R.id.lifespanInput)
         dietPreferredInput = findViewById(R.id.dietPreferredInput)
         typeImagePreview = findViewById(R.id.typeImagePreview)
-        findViewById<Button>(R.id.chooseImageButton).setOnClickListener { showImagePicker() }
-        typeImagePreview.setOnClickListener { showImagePicker() }
 
         typeInput.adapter = ArrayAdapter(
             this@AnimalEditActivity,
@@ -98,38 +105,50 @@ class AnimalEditActivity : AppCompatActivity() {
             .show()
     }
 
-    private fun showImagePicker() {
-        val names = AnimalImages.names(this)
-        val grid = layoutInflater.inflate(R.layout.dialog_image_picker, null) as GridView
-
+    private fun showImageUrlDialog() {
+        val urlInput = EditText(this).apply {
+            hint = getString(R.string.image_url_hint)
+            inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_URI
+            setSingleLine(true)
+            setText(selectedImage.takeIf { it.startsWith("https://", ignoreCase = true) }.orEmpty())
+            setSelection(text.length)
+        }
         val dialog = AlertDialog.Builder(this)
-            .setTitle(R.string.animal_image)
-            .setView(grid)
-            .setNeutralButton(R.string.clear_image) { _, _ -> setSelectedImage("") }
+            .setTitle(R.string.image_url_title)
+            .setView(urlInput)
+            .setPositiveButton(R.string.use_image_url, null)
+            .setNeutralButton(R.string.clear_image, null)
             .setNegativeButton(R.string.cancel, null)
             .create()
 
-        grid.adapter = object : BaseAdapter() {
-            override fun getCount() = names.size
-            override fun getItem(position: Int) = names[position]
-            override fun getItemId(position: Int) = position.toLong()
-            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val view = convertView as? ImageView
-                    ?: layoutInflater.inflate(R.layout.item_image_choice, parent, false) as ImageView
-                view.setImageResource(AnimalImages.resourceFor(this@AnimalEditActivity, names[position]))
-                return view
+        dialog.setOnShowListener {
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                val enteredUrl = urlInput.text.toString().trim()
+                if (enteredUrl.isNotEmpty()) {
+                    val uri = Uri.parse(enteredUrl)
+                    if (!uri.scheme.equals("https", ignoreCase = true) || uri.host.isNullOrBlank()) {
+                        urlInput.error = getString(R.string.image_url_invalid)
+                        return@setOnClickListener
+                    }
+                }
+
+                selectedImage = enteredUrl
+                showSelectedImage()
+                dialog.dismiss()
             }
-        }
-        grid.setOnItemClickListener { _, _, position, _ ->
-            setSelectedImage(names[position])
-            dialog.dismiss()
+            dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener {
+                selectedImage = ""
+                showSelectedImage()
+                dialog.dismiss()
+            }
         }
         dialog.show()
     }
 
-    private fun setSelectedImage(name: String) {
-        selectedImage = name
-        typeImagePreview.setImageResource(AnimalImages.resourceFor(this, name))
+    private fun showSelectedImage() {
+        AnimalImages.show(typeImagePreview, selectedImage, fallbackImageName) {
+            Toast.makeText(this, R.string.image_load_failed, Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -151,7 +170,11 @@ class AnimalEditActivity : AppCompatActivity() {
         descriptionInput.setText(animal.features.description)
         lifespanInput.setText(animal.features.lifespan)
         dietPreferredInput.setText(animal.features.dietPreferred)
-        setSelectedImage(animal.features.typeImage)
+        fallbackImageName = animal.features.typeImage
+        selectedImage = animal.imageUri
+            ?.takeIf { it.isNotBlank() }
+            ?: animal.features.imageUri.orEmpty()
+        showSelectedImage()
     }
 
     private fun saveAnimal() {
@@ -169,8 +192,10 @@ class AnimalEditActivity : AppCompatActivity() {
                 description = descriptionInput.text.toString().trim(),
                 lifespan = lifespanInput.text.toString().trim(),
                 dietPreferred = dietPreferredInput.text.toString().trim(),
-                typeImage = selectedImage
-            )
+                typeImage = fallbackImageName,
+                imageUri = selectedImage
+            ),
+            imageUri = selectedImage
         )
 
         if (editingId == null) {
@@ -198,4 +223,3 @@ class AnimalEditActivity : AppCompatActivity() {
             }
     }
 }
-

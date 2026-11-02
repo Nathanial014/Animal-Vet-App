@@ -11,7 +11,12 @@
     <string name="lifespan">Lifespan</string>
     <string name="preferred_diet">Preferred diet</string>
     <string name="animal_image">Animal image</string>
-    <string name="choose_image">Choose image</string>
+    <string name="choose_image">Enter image URL</string>
+    <string name="image_url_title">Image URL</string>
+    <string name="image_url_hint">https://example.com/image.jpg</string>
+    <string name="image_url_invalid">Enter a valid HTTPS image URL.</string>
+    <string name="image_load_failed">Could not load this image. Check the URL and connection.</string>
+    <string name="use_image_url">Use image</string>
     <string name="clear_image">Clear image</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
