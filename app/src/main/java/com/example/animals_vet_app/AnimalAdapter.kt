@@ -58,9 +58,9 @@ class AnimalAdapter(
 
         val animal = animals[position]
 
-        holder.animalImage.setImageResource(
-            AnimalImages.resourceFor(holder.itemView.context, animal.features.typeImage)
-        )
+        val imageUri = animal.imageUri?.takeIf { it.isNotBlank() }
+            ?: animal.features.imageUri
+        AnimalImages.show(holder.animalImage, imageUri, animal.features.typeImage)
 
         holder.titleText.text =
             "${animal.name} (${animal.type})"

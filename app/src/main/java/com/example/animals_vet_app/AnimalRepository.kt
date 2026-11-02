@@ -11,16 +11,20 @@ class AnimalRepository {
     }
 
     fun create(animal: Animal) {
+        animal.validate()
         animal.id = lastId.incrementAndGet()
         animals.add(animal)
     }
 
     fun update(animal: Animal): Boolean {
+        animal.validate()
+
         val foundAnimal = findOne(animal.id)
         return if (foundAnimal != null) {
             foundAnimal.name = animal.name
             foundAnimal.type = animal.type
             foundAnimal.features = animal.features
+            foundAnimal.imageUri = animal.imageUri
             true
         } else {
             false
