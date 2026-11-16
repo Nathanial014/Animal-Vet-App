@@ -20,6 +20,9 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.addAnimalButton).setOnClickListener {
             startActivity(Intent(this, AnimalEditActivity::class.java))
         }
+
+        findViewById<Button>(R.id.viewVetsButton).setOnClickListener {
+            startActivity(Intent(this, Vets::class.java))
+        }
     }
 }
-

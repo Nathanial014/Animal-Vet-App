@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -13,6 +14,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AnimalsVetApp">
+        <activity
+            android:name=".MapPickerActivity"
+            android:exported="false"
+            android:parentActivityName=".Vets" />
+        <activity
+            android:name=".Vets"
+            android:exported="false"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".AnimalEditActivity"
             android:exported="false"
@@ -33,5 +42,5 @@
             android:parentActivityName=".MainActivity"
             android:windowSoftInputMode="adjustResize" />
     </application>
-
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
